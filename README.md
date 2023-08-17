@@ -1,5 +1,5 @@
 # proxy.py
-A simple http proxy server
+A simple http proxy server that only supports CONNECT method
 
 # Usage
 ```
