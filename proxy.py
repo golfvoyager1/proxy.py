@@ -80,13 +80,13 @@ async def handle_conn(reader, writer, ipv4):
         if is_blocked_ip(host_addr):
             logging.debug(f"Access denied from {client} to {host_addr}:{port}({host})")
             return await rejected_resp(writer)
+        logging.info(f"Accepted connection from {client}")
+        await accepted_resp(writer)
         try:
             rreader, rwriter = await asyncio.open_connection(host_addr, port)
         except Exception:
             logging.warning(f"Failed to connect to {host_addr}:{port}")
             return await rejected_resp(writer)
-        logging.info(f"Accepted connection from {client}")
-        await accepted_resp(writer)
         try:
             await asyncio.gather(
                 pipe(reader, rwriter), pipe(rreader, writer))
